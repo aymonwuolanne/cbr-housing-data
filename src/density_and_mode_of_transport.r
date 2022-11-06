@@ -4,13 +4,13 @@ library(forcats)
 library(dplyr)
 library(ggplot2)
 
-sa2mtw <- read_csv("data/SA2_by_MTW06P_2021.csv",
+sa2mtw <- read_csv("data/SA2_MTW06P_2021.csv",
     col_names = c("sa2", "mtw", "n"),
     col_types = "ffn",
     skip = 11L
 )
 
-sa2strd <- read_csv("data/SA2_by_STRD_2021.csv",
+sa2strd <- read_csv("data/SA2_STRD_2021.csv",
     col_names = c("sa2", "strd", "n"),
     col_types = "ffn",
     skip = 11L
