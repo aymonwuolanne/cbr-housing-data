@@ -4,6 +4,7 @@
 library(dplyr)
 
 blocks <- read.csv("data/ACTGOV_TP_LAND_USE_ZONE.csv")
+names(blocks) <- tolower(names(blocks))
 
 relevant_zones <- c(
     "RZ1", "RZ2", "RZ3", "RZ4", "RZ5",
@@ -11,11 +12,20 @@ relevant_zones <- c(
     "CZ5", "CZ6"
 )
 
-blocks %>%
+
+res <- blocks %>%
     filter(
-        LAND_USE_ZONE_CODE_ID %in% relevant_zones
+        land_use_zone_code_id %in% relevant_zones
     ) %>%
-    group_by(LAND_USE_ZONE_CODE_ID) %>%
-    summarise(area = sum(Shape__Area)) %>%
+    group_by(
+        land_use_zone_code_id,
+        land_use_policy_desc
+    ) %>%
+    summarise(area = sum(shape__area)) %>%
     ungroup() %>%
-    mutate(area = area / sum(area))
+    mutate(area_proportion = area / sum(area)) %>%
+    arrange(land_use_zone_code_id)
+
+res
+
+write.csv(res, "tables/zone_areas.csv", row.names = FALSE)
